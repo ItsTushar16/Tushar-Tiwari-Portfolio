@@ -1,0 +1,22 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "backend": {
+      "root": "backend",
+      "framework": null
+    },
+    "frontend": {
+      "root": "frontend",
+      "framework": "vite"
+    }
+  },
+  "rewrites": [
+    { "source": "/inquiry", "destination": { "service": "backend" } },
+    { "source": "/health", "destination": { "service": "backend" } },
+    { "source": "/cron/daily-summary", "destination": { "service": "backend" } },
+    { "source": "/(.*)", "destination": { "service": "frontend" } }
+  ],
+  "crons": [
+    { "path": "/cron/daily-summary", "schedule": "0 9 * * *" }
+  ]
+}
