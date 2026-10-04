@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
-// On a traditional server, connectDB() runs once at startup. On Vercel,
-// every invocation calls it — a cold start actually connects, a warm one
-// reuses the connection already sitting in this module's memory. Caching
-// on `global` (not just a local variable) survives Vercel reusing the same
-// container/module cache across invocations within that container's life.
+
 let cached = global._mongooseConn;
 if (!cached) cached = global._mongooseConn = { conn: null, promise: null };
 

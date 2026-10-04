@@ -14,9 +14,7 @@ const ipLimiter = rateLimit({
   message: { error: "Too many requests. Please try again later." },
 });
 
-// Layer 2 — per recipient address. The confirmation email goes to whatever
-// address the visitor typed, so without this a bot (or a person with a grudge)
-// could use your form to spam someone else's inbox from many different IPs.
+
 const emailLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 3,
@@ -37,8 +35,7 @@ const globalLimiter = rateLimit({
   message: { error: "Too many requests. Please try again later." },
 });
 
-// Layer 4 — daily ceiling. Brevo's free plan allows 300 emails per day, and your
-// 9am summary email needs to fit inside that too, so stop well short of it.
+
 const dailyLimiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000,
   max: 200,
@@ -48,8 +45,7 @@ const dailyLimiter = rateLimit({
   message: { error: "Too many requests. Please try again later." },
 });
 
-// Order matters: cheap checks first, and the email/global/daily limiters run
-// after validation so only well-formed submissions count against them.
+
 router.post("/", ipLimiter, ...validateInquiry, emailLimiter, globalLimiter, dailyLimiter, inquiryController);
 
 module.exports = router;

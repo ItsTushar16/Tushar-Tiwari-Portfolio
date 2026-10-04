@@ -1,9 +1,7 @@
 const { body, validationResult } = require("express-validator");
 
 const validateInquiry = [
-  // .isString() on every field matters more than it looks: without it, a
-  // payload like {"email": {"$gt": ""}} would sail past a plain isEmail()
-  // check and reach the database as an object instead of a string.
+  
   body("name")
     .isString()
     .withMessage("Name is required")

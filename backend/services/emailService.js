@@ -1,15 +1,10 @@
 const validator = require("validator");
 
-// Emails go out through Brevo's HTTPS API (not SMTP). Free Render services block
-// the SMTP ports (25/465/587) but HTTPS is fine, and an API key is safer to hand
-// to a host than your real Google password.
+
 const BREVO_URL = process.env.BREVO_API_URL || "https://api.brevo.com/v3/smtp/email";
 const TIMEOUT_MS = Number(process.env.EMAIL_TIMEOUT_MS) || 10000;
 
-// A submitted name or message becomes part of an HTML email. Without
-// escaping, someone typing "<img src=x onerror=...>" as their name would
-// have that markup interpreted by whatever reads the email — the visitor's
-// own inbox for the confirmation mail, and yours for the admin summary.
+
 const escapeHtml = (str = "") =>
   String(str)
     .replace(/&/g, "&amp;")
