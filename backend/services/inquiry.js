@@ -13,12 +13,15 @@ const createInquiry = async (data) => {
 
   const savedInquiry = await newInquiry.save();
 
-  // Send email
-  sendUserConfirmation(savedInquiry).catch((err) =>
-    console.error("Email failed:", err.message)
-  );
+try {
+  console.log("Attempting to send confirmation email...");
+  await sendUserConfirmation(savedInquiry);
+  console.log("Confirmation email sent successfully.");
+} catch (err) {
+  console.error("Production email failure:", err.message);
+}
 
-  return savedInquiry;
+return savedInquiry;
 };
 
 module.exports = { createInquiry };
